@@ -16,6 +16,10 @@ class Game {
         window.addEventListener('resize', e => {
             this.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight);
         });
+
+        this.canvas.addEventListener('mousedown', e => {
+            this.player.flap();
+        });
     }
     resize(width, height) {
         this.canvas.width = width;
@@ -28,6 +32,9 @@ class Game {
         this.gravity = 0.15 * this.ratio;
         this.player.resize();
     }
+
+    // mouse countrols
+
     render() {
         this.player.update();
         this.player.draw();
