@@ -1,3 +1,4 @@
+import Background from './Background.js';
 import Player from './Player.js';
 
 class Game {
@@ -6,10 +7,12 @@ class Game {
         this.ctx = context;
         this.width = this.canvas.width;
         this.height = this.canvas.height;
-        this.baseHeight = 720;
+        this.baseHeight = 720; //same as background image height
         this.ratio = this.height / this.baseHeight;
         this.player = new Player(this);
+        this.background = new Background(this);
         this.gravity;
+        this.speed;
 
         this.resize(window.innerWidth, window.innerHeight);
 
@@ -37,10 +40,14 @@ class Game {
         this.ratio = this.height / this.baseHeight;
 
         this.gravity = 0.15 * this.ratio;
+        this.speed = 3;
+        this.background.resize();
         this.player.resize();
     }
 
     render() {
+        this.background.update();
+        this.background.draw();
         this.player.update();
         this.player.draw();
     }
