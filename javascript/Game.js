@@ -17,9 +17,16 @@ class Game {
             this.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight);
         });
 
-        this.canvas.addEventListener('mousedown', e => {
-            this.player.flap();
+        // mouse countrols
+        this.canvas.addEventListener('mousedown', e => this.player.flap());
+
+        // keyboard controls
+        window.addEventListener('keydown', e => {
+            if (e.key === ' ' || e.key === 'Enter') this.player.flap();
         });
+
+        // Touch controls
+        this.canvas.addEventListener('touchstart', e => this.player.flap());
     }
     resize(width, height) {
         this.canvas.width = width;
@@ -32,8 +39,6 @@ class Game {
         this.gravity = 0.15 * this.ratio;
         this.player.resize();
     }
-
-    // mouse countrols
 
     render() {
         this.player.update();
