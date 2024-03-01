@@ -7,11 +7,21 @@ class Obstacle {
         this.scaledHeight = this.spriteHeight * this.game.ratio;
         this.height;
         this.x = x;
-        this.y = this.game.height - 0.5 * this.game.height;
+        this.y = Math.random() * (this.game.height - this.scaledHeight);
+        this.speedY = Math.random() < 0.5 ? -1 * this.game.ratio : 1 * this.game.ratio;
+        this.markedForDeletion = false;
     }
     update() {
         this.x -= this.game.speed;
+        this.y += this.speedY;
+        if (this.y + this.scaledHeight >= this.game.height || this.y <= 0) this.speedY *= -1;
+        if (this.isOffScreen()) {
+            this.markedForDeletion = true;
+            this.game.obstacles = this.game.obstacles.filter(obstacle => !obstacle.markedForDeletion);
+            console.log(this.game.obstacles.length);
+        }
     }
+
     draw() {
         this.game.ctx.fillRect(this.x, this.y, this.scaledWidth, this.scaledHeight);
     }
@@ -19,6 +29,9 @@ class Obstacle {
     resize() {
         this.scaledWidth = this.spriteWidth * this.game.ratio;
         this.scaledHeight = this.spriteHeight * this.game.ratio;
+    }
+    isOffScreen() {
+        return this.x < 0;
     }
 }
 
