@@ -1,8 +1,14 @@
+@font-face {
+    font-family: 'Bungee';
+    src: url('./fonts/Bungee/Bungee-Regular.ttf') format('truetype');
+}
+
 body,
 body * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Bungee', sans-serif;
 }
 
 #canvas1 {
