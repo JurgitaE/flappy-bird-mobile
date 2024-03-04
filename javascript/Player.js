@@ -13,6 +13,9 @@ class Player {
         this.collisionY;
         this.collisionRadius;
         this.collided;
+        this.energy = 30;
+        this.maxEnergy = this.energy * 2;
+        this.minEnergy = 15;
     }
 
     draw() {
@@ -22,6 +25,7 @@ class Player {
         this.game.ctx.stroke();
     }
     update() {
+        this.handleEnergy();
         this.y += this.speedY;
         this.collisionY = this.y + this.height / 2;
         if (!this.isTouchingBottom()) this.speedY += this.game.gravity;
@@ -43,6 +47,11 @@ class Player {
     }
     isTouchingBottom() {
         return this.y + this.height >= this.game.height;
+    }
+    handleEnergy() {
+        if (this.energy < this.maxEnergy) {
+            this.energy += 0.1;
+        }
     }
     flap() {
         if (!this.isTouchingTop()) this.speedY = -this.flapSpeed;
