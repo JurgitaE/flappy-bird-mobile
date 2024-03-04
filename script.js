@@ -24,7 +24,7 @@ window.addEventListener('load', function () {
             game.render(deltaTime);
             fpsAdjustment = 0;
         }
-        if (!game.gameOver) requestAnimationFrame(animate);
+        requestAnimationFrame(animate);
     }
 
     requestAnimationFrame(animate);
