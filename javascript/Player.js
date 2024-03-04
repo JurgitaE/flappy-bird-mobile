@@ -9,13 +9,20 @@ class Player {
         this.height;
         this.speedY;
         this.flapSpeed;
+        this.collisionX;
+        this.collisionY;
+        this.collisionRadius;
     }
 
     draw() {
         this.game.ctx.fillRect(this.x, this.y, this.width, this.height);
+        this.game.ctx.beginPath();
+        this.game.ctx.arc(this.collisionX, this.collisionY, this.collisionRadius, 0, Math.PI * 2);
+        this.game.ctx.stroke();
     }
     update() {
         this.y += this.speedY;
+        this.collisionY = this.y + this.height / 2;
         if (!this.isTouchingBottom()) this.speedY += this.game.gravity;
         if (this.isTouchingBottom()) this.y = this.game.height - this.height;
     }
@@ -25,6 +32,8 @@ class Player {
         this.y = (this.game.height - this.height) * 0.5;
         this.speedY = -8 * this.game.ratio;
         this.flapSpeed = 5 * this.game.ratio;
+        this.collisionRadius = this.width / 2;
+        this.collisionX = this.x + this.width / 2;
     }
 
     isTouchingTop() {
