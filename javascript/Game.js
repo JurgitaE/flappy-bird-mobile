@@ -82,6 +82,13 @@ class Game {
             this.obstacles.push(new Obstacle(this, firstX + i * obstacleSpacing));
         }
     }
+    checkCollision(a, b) {
+        const dx = a.collisionX - b.collisionX;
+        const dy = a.collisionY - b.collisionY;
+        const distance = Math.hypot(dx, dy);
+        const sumOfRadii = a.collisionRadius + b.collisionRadius;
+        return distance <= sumOfRadii;
+    }
     formatTimer() {
         return (this.timer * 0.001).toFixed(2);
     }
