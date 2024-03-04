@@ -13,11 +13,12 @@ class Game {
         this.background = new Background(this);
         this.player = new Player(this);
         this.obstacles = [];
-        this.numberOFObstacles = 10;
+        this.numberOFObstacles = 2;
         this.gravity;
         this.speed;
         this.score;
         this.gameOver;
+        this.timer;
 
         this.resize(window.innerWidth, window.innerHeight);
 
@@ -56,9 +57,11 @@ class Game {
         });
         this.score = 0;
         this.gameOver = false;
+        this.timer = 0;
     }
 
-    render() {
+    render(deltaTime) {
+        this.timer += deltaTime;
         this.background.update();
         this.background.draw();
         this.drawStatusText();
@@ -77,9 +80,14 @@ class Game {
             this.obstacles.push(new Obstacle(this, firstX + i * obstacleSpacing));
         }
     }
+    formatTimer() {
+        return (this.timer * 0.001).toFixed(2);
+    }
     drawStatusText() {
         this.ctx.save();
         this.ctx.fillText(`Score: ${this.score}`, this.width - 10, 30);
+        this.ctx.textAlign = 'left';
+        this.ctx.fillText(`Timer: ${this.formatTimer()}`, 10, 30);
         this.ctx.restore();
     }
 }

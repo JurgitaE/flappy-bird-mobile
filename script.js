@@ -8,9 +8,22 @@ window.addEventListener('load', function () {
 
     const game = new Game(canvas, ctx);
 
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        game.render();
+    let lastTime = 0;
+
+    // implementation of adjusted fps
+    let fpsAdjustment = 0;
+
+    function animate(timeStamp) {
+        const deltaTime = timeStamp - lastTime;
+        lastTime = timeStamp;
+        fpsAdjustment += deltaTime;
+
+        //if condition for fps adjustment 60fps
+        if (fpsAdjustment >= 16.67) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            game.render(deltaTime);
+            fpsAdjustment = 0;
+        }
         if (!game.gameOver) requestAnimationFrame(animate);
     }
 
