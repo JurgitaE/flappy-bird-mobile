@@ -16,10 +16,12 @@ class Player {
         this.energy = 30;
         this.maxEnergy = this.energy * 2;
         this.minEnergy = 15;
+        this.barSize;
+        this.charging;
     }
 
     draw() {
-        this.game.ctx.fillRect(this.x, this.y, this.width, this.height);
+        this.game.ctx.strokeRect(this.x, this.y, this.width, this.height);
         this.game.ctx.beginPath();
         this.game.ctx.arc(this.collisionX, this.collisionY, this.collisionRadius, 0, Math.PI * 2);
         this.game.ctx.stroke();
@@ -40,10 +42,19 @@ class Player {
         this.collisionRadius = this.width / 2;
         this.collisionX = this.x + this.width / 2;
         this.collided = false;
+        this.barSize = Math.floor(5 * this.game.ratio);
     }
 
     isTouchingTop() {
         return this.y <= 0;
+    }
+    startCharge() {
+        this.charging = true;
+        this.game.speed = this.game.maxSpeed;
+    }
+    stopCharge() {
+        this.charging = false;
+        this.game.speed = this.game.minSpeed;
     }
     isTouchingBottom() {
         return this.y + this.height >= this.game.height;
@@ -52,8 +63,16 @@ class Player {
         if (this.energy < this.maxEnergy) {
             this.energy += 0.1;
         }
+        if (this.charging) {
+            this.energy -= 1;
+            if (this.energy <= 0) {
+                this.energy = 0;
+                this.stopCharge();
+            }
+        }
     }
     flap() {
+        this.stopCharge();
         if (!this.isTouchingTop()) this.speedY = -this.flapSpeed;
     }
 }
