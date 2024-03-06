@@ -18,11 +18,11 @@ window.addEventListener('load', function () {
         lastTime = timeStamp;
         fpsAdjustment += deltaTime;
 
-        //if condition for fps adjustment 60fps
+        // if condition for fps adjustment 60fps
         if (fpsAdjustment >= 16.67) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             game.render(deltaTime);
-            fpsAdjustment = 0;
+            fpsAdjustment = fpsAdjustment % 16.67;
         }
         requestAnimationFrame(animate);
     }

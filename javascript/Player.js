@@ -15,7 +15,7 @@ class Player {
         this.collided;
         this.energy = 30;
         this.maxEnergy = this.energy * 2;
-        this.minEnergy = 15;
+        this.minEnergy = 150;
         this.barSize;
         this.charging;
     }
@@ -60,14 +60,16 @@ class Player {
         return this.y + this.height >= this.game.height;
     }
     handleEnergy() {
-        if (this.energy < this.maxEnergy) {
-            this.energy += 0.1;
-        }
-        if (this.charging) {
-            this.energy -= 1;
-            if (this.energy <= 0) {
-                this.energy = 0;
-                this.stopCharge();
+        if (this.game.eventUpdate) {
+            if (this.energy < this.maxEnergy) {
+                this.energy += 1;
+            }
+            if (this.charging) {
+                this.energy -= 6;
+                if (this.energy <= 0) {
+                    this.energy = 0;
+                    this.stopCharge();
+                }
             }
         }
     }

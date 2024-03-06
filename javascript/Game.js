@@ -23,6 +23,9 @@ class Game {
         this.timer;
         this.message1;
         this.message2;
+        this.eventTimer = 0;
+        this.eventInterval = 150;
+        this.eventUpdate = false;
 
         this.resize(window.innerWidth, window.innerHeight);
 
@@ -71,6 +74,7 @@ class Game {
 
     render(deltaTime) {
         if (!this.gameOver) this.timer += deltaTime;
+        this.handlePeriodicEvents(deltaTime);
         this.background.update();
         this.background.draw();
         this.drawStatusText();
@@ -98,6 +102,16 @@ class Game {
     }
     formatTimer() {
         return (this.timer * 0.001).toFixed(2);
+    }
+    handlePeriodicEvents(deltaTime) {
+        if (this.eventTimer < this.eventInterval) {
+            this.eventTimer += deltaTime;
+            this.eventUpdate = false;
+        } else {
+            this.eventTimer = this.eventTimer % this.eventInterval;
+            this.eventUpdate = true;
+            // console.log(this.eventTimer);
+        }
     }
     drawStatusText() {
         this.ctx.save();
