@@ -26,6 +26,8 @@ class Game {
         this.eventTimer = 0;
         this.eventInterval = 150;
         this.eventUpdate = false;
+        this.touchStartX;
+        this.swipeDistance = 50;
 
         this.resize(window.innerWidth, window.innerHeight);
 
@@ -43,12 +45,20 @@ class Game {
         });
 
         // Touch controls
-        this.canvas.addEventListener('touchstart', e => this.player.flap());
+        this.canvas.addEventListener('touchstart', e => {
+            this.player.flap();
+            this.touchStartX = e.changedTouches[0].pageX;
+        });
+        this.canvas.addEventListener('touchmove', e => {
+            if (e.changedTouches[0].pageX - this.touchStartX > this.swipeDistance) {
+                this.player.startCharge();
+            }
+        });
     }
     resize(width, height) {
         this.canvas.width = width;
         this.canvas.height = height;
-        this.ctx.fillStyle = 'blue';
+        // this.ctx.fillStyle = 'blue';
         this.ctx.font = '15px Bungee';
         this.ctx.textAlign = 'right';
         this.ctx.lineWidth = 3;
@@ -110,7 +120,6 @@ class Game {
         } else {
             this.eventTimer = this.eventTimer % this.eventInterval;
             this.eventUpdate = true;
-            // console.log(this.eventTimer);
         }
     }
     drawStatusText() {
