@@ -13,7 +13,7 @@ class Game {
         this.background = new Background(this);
         this.player = new Player(this);
         this.obstacles = [];
-        this.numberOFObstacles = 2;
+        this.numberOFObstacles = 5;
         this.gravity;
         this.speed;
         this.minSpeed;

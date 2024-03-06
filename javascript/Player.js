@@ -30,7 +30,10 @@ class Player {
         this.handleEnergy();
         this.y += this.speedY;
         this.collisionY = this.y + this.height / 2;
-        if (!this.isTouchingBottom()) this.speedY += this.game.gravity;
+        if (!this.isTouchingBottom() && !this.charging) this.speedY += this.game.gravity;
+        else {
+            this.speedY = 0;
+        }
         if (this.isTouchingBottom()) this.y = this.game.height - this.height;
     }
     resize() {
