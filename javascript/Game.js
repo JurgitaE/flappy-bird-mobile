@@ -34,6 +34,7 @@ class Game {
         this.touchStartX;
         this.swipeDistance = 50;
         this.debug = false;
+        this.isPaused = false;
 
         this.resize(window.innerWidth, window.innerHeight);
 
@@ -52,6 +53,7 @@ class Game {
             if (e.key === 'Shift' || e.key.toLowerCase() === 'c') this.player.startCharge();
             if (e.key.toLowerCase() === 'd') this.debug = !this.debug;
             if (e.key.toLowerCase() === 'r') this.resize(window.innerWidth, window.innerHeight);
+            if (e.key.toLowerCase() === 'p') this.togglePause();
         });
         window.addEventListener('keyup', e => {
             if (e.key === ' ' || e.key === 'Enter') this.player.wingsUp();
@@ -75,6 +77,8 @@ class Game {
     resize(width, height) {
         this.canvas.width = width;
         this.canvas.height = height;
+        this.smallFont = Math.ceil(20 * this.ratio);
+        this.largeFont = Math.ceil(45 * this.ratio);
         this.ctx.font = this.smallFont + 'px Bungee';
         this.ctx.textAlign = 'right';
         this.ctx.lineWidth = 1;
@@ -84,8 +88,6 @@ class Game {
         this.ratio = this.height / this.baseHeight;
 
         this.bottomMargin = Math.floor(50 * this.ratio);
-        this.smallFont = Math.ceil(20 * this.ratio);
-        this.largeFont = Math.ceil(45 * this.ratio);
         this.gravity = 0.15 * this.ratio;
         this.speed = 2 * this.ratio;
         this.minSpeed = this.speed;
@@ -179,6 +181,13 @@ class Game {
             );
         }
         this.ctx.restore();
+    }
+    togglePause() {
+        if (!this.isPaused) {
+            this.isPaused = true;
+        } else if (this.isPaused) {
+            this.isPaused = false;
+        }
     }
 }
 
