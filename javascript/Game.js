@@ -15,7 +15,7 @@ class Game {
         this.player = new Player(this);
         this.sound = new AudioControl();
         this.obstacles = [];
-        this.numberOFObstacles = 5;
+        this.numberOFObstacles = 15;
         this.gravity;
         this.speed;
         this.minSpeed;
@@ -70,7 +70,7 @@ class Game {
         this.canvas.height = height;
         this.ctx.font = '15px Bungee';
         this.ctx.textAlign = 'right';
-        this.ctx.lineWidth = 3;
+        this.ctx.lineWidth = 1;
         this.ctx.strokeStyle = 'white';
         this.width = this.canvas.width;
         this.height = this.canvas.height;
@@ -131,19 +131,26 @@ class Game {
             this.eventUpdate = true;
         }
     }
+    triggerGameOver() {
+        if (!this.gameOver) {
+            this.gameOver = true;
+            if (this.obstacles.length <= 0) {
+                this.sound.play(this.sound.win);
+                this.message1 = 'Nailed it!';
+                this.message2 = 'Can  you do it faster than ' + this.formatTimer() + ' seconds?';
+            } else {
+                this.sound.play(this.sound.lose);
+                this.message1 = 'Getting rusty?';
+                this.message2 = 'Collision time ' + this.formatTimer() + ' seconds';
+            }
+        }
+    }
     drawStatusText() {
         this.ctx.save();
         this.ctx.fillText(`Score: ${this.score}`, this.width - 10, 30);
         this.ctx.textAlign = 'left';
         this.ctx.fillText(`Timer: ${this.formatTimer()}`, 10, 30);
         if (this.gameOver) {
-            if (this.player.collided) {
-                this.message1 = 'Getting rusty?';
-                this.message2 = 'Collision time ' + this.formatTimer() + ' seconds';
-            } else if (this.obstacles.length <= 0) {
-                this.message1 = 'Nailed it!';
-                this.message2 = 'Can  you do it faster than ' + this.formatTimer() + ' seconds?';
-            }
             this.ctx.textAlign = 'center';
             this.ctx.font = '30px Bungee';
             this.ctx.fillText(this.message1, this.width * 0.5, this.height * 0.5 - 40);
@@ -151,7 +158,7 @@ class Game {
             this.ctx.fillText(this.message2, this.width * 0.5, this.height * 0.5 - 20);
             this.ctx.fillText(`Press 'R' to try again!`, this.width * 0.5, this.height * 0.5);
         }
-        if (this.player.energy <= 20) this.ctx.fillStyle = 'red';
+        if (this.player.energy <= this.player.minEnergy) this.ctx.fillStyle = 'red';
         else if (this.player.energy >= this.player.maxEnergy) this.ctx.fillStyle = 'orangered';
         for (let i = 0; i < this.player.energy; i++) {
             this.ctx.fillRect(

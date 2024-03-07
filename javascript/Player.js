@@ -15,7 +15,7 @@ class Player {
         this.collided;
         this.energy = 30;
         this.maxEnergy = this.energy * 2;
-        this.minEnergy = 150;
+        this.minEnergy = 15;
         this.barSize;
         this.charging;
         this.image = document.getElementById('player_fish');
@@ -79,10 +79,14 @@ class Player {
         return this.y <= 0;
     }
     startCharge() {
-        this.charging = true;
-        this.game.speed = this.game.maxSpeed;
-        this.wingsCharge();
-        this.game.sound.play(this.game.sound.charge);
+        if (this.energy >= this.minEnergy && !this.charging) {
+            this.charging = true;
+            this.game.speed = this.game.maxSpeed;
+            this.wingsCharge();
+            this.game.sound.play(this.game.sound.charge);
+        } else {
+            this.stopCharge();
+        }
     }
     stopCharge() {
         this.charging = false;
@@ -121,6 +125,7 @@ class Player {
         this.stopCharge();
         if (!this.isTouchingTop()) {
             this.speedY = -this.flapSpeed;
+            this.game.sound.play(this.game.sound.flapSounds[Math.floor(Math.random() * 5)]);
             this.wingsDown();
         }
     }
