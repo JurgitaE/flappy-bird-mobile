@@ -19,13 +19,14 @@ class Player {
         this.barSize;
         this.charging;
         this.image = document.getElementById('player_fish');
+        this.frameY;
     }
 
     draw() {
         this.game.ctx.drawImage(
             this.image,
             0,
-            0,
+            this.spriteHeight * this.frameY,
             this.spriteWidth,
             this.spriteHeight,
             this.x,
@@ -42,13 +43,17 @@ class Player {
     }
     update() {
         this.handleEnergy();
+        if (this.speedY > 0) this.wingsUp();
         this.y += this.speedY;
         this.collisionY = this.y + this.height / 2;
         if (!this.isTouchingBottom() && !this.charging) this.speedY += this.game.gravity;
         else {
             this.speedY = 0;
         }
-        if (this.isTouchingBottom()) this.y = this.game.height - this.height;
+        if (this.isTouchingBottom()) {
+            this.y = this.game.height - this.height;
+            this.wingsIdle();
+        }
     }
     resize() {
         this.width = this.spriteWidth * this.game.ratio;
@@ -60,6 +65,8 @@ class Player {
         this.collisionX = this.x + this.width / 2;
         this.collided = false;
         this.barSize = Math.floor(5 * this.game.ratio);
+        this.frameY = 0;
+        this.charging = false;
     }
 
     isTouchingTop() {
@@ -68,10 +75,23 @@ class Player {
     startCharge() {
         this.charging = true;
         this.game.speed = this.game.maxSpeed;
+        this.wingsCharge();
     }
     stopCharge() {
         this.charging = false;
         this.game.speed = this.game.minSpeed;
+    }
+    wingsIdle() {
+        if (!this.charging) this.frameY = 0;
+    }
+    wingsDown() {
+        if (!this.charging) this.frameY = 1;
+    }
+    wingsUp() {
+        if (!this.charging) this.frameY = 2;
+    }
+    wingsCharge() {
+        this.frameY = 3;
     }
     isTouchingBottom() {
         return this.y + this.height >= this.game.height;
@@ -92,7 +112,10 @@ class Player {
     }
     flap() {
         this.stopCharge();
-        if (!this.isTouchingTop()) this.speedY = -this.flapSpeed;
+        if (!this.isTouchingTop()) {
+            this.speedY = -this.flapSpeed;
+            this.wingsDown();
+        }
     }
 }
 
