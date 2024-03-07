@@ -44,7 +44,7 @@ class Game {
         // mouse countrols
         this.canvas.addEventListener('mousedown', e => this.player.flap());
         // mouse countrols
-        this.canvas.addEventListener('mouseup', e => this.player.wingsUp());
+        this.canvas.addEventListener('mouseup', e => setTimeout(() => this.player.wingsUp(), 50));
 
         // keyboard controls
         window.addEventListener('keydown', e => {
@@ -59,12 +59,16 @@ class Game {
 
         // Touch controls
         this.canvas.addEventListener('touchstart', e => {
-            this.player.flap();
             this.touchStartX = e.changedTouches[0].pageX;
         });
         this.canvas.addEventListener('touchmove', e => {
+            e.preventDefault();
+        });
+        this.canvas.addEventListener('touchend', e => {
             if (e.changedTouches[0].pageX - this.touchStartX > this.swipeDistance) {
                 this.player.startCharge();
+            } else {
+                this.player.flap();
             }
         });
     }

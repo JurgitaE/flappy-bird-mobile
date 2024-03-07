@@ -37,13 +37,7 @@ class Player {
 
         if (this.game.debug) {
             this.game.ctx.beginPath();
-            this.game.ctx.arc(
-                this.collisionX + this.collisionRadius * 0.9,
-                this.collisionY,
-                this.collisionRadius,
-                0,
-                Math.PI * 2
-            );
+            this.game.ctx.arc(this.collisionX, this.collisionY, this.collisionRadius, 0, Math.PI * 2);
             this.game.ctx.stroke();
         }
     }
@@ -68,7 +62,7 @@ class Player {
         this.speedY = -8 * this.game.ratio;
         this.flapSpeed = 5 * this.game.ratio;
         this.collisionRadius = this.game.ratio * 40;
-        this.collisionX = this.x + this.width / 2;
+        this.collisionX = this.x + this.width * 0.7;
         this.collided = false;
         this.barSize = Math.floor(5 * this.game.ratio);
         this.frameY = 0;
