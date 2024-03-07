@@ -19,7 +19,7 @@ window.addEventListener('load', function () {
         fpsAdjustment += deltaTime;
 
         // if condition for fps adjustment 60fps
-        if (fpsAdjustment >= 16.67) {
+        if (fpsAdjustment >= 16.67 && !game.isPaused) {
             // ctx.clearRect(0, 0, canvas.width, canvas.height);
             game.render(deltaTime);
             fpsAdjustment = fpsAdjustment % 16.67;
