@@ -28,6 +28,7 @@ class Game {
         this.eventUpdate = false;
         this.touchStartX;
         this.swipeDistance = 50;
+        this.debug = false;
 
         this.resize(window.innerWidth, window.innerHeight);
 

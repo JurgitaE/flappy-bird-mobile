@@ -33,9 +33,12 @@ class Player {
             this.width,
             this.height
         );
-        this.game.ctx.beginPath();
-        this.game.ctx.arc(this.collisionX, this.collisionY, this.collisionRadius, 0, Math.PI * 2);
-        this.game.ctx.stroke();
+
+        if (this.game.debug) {
+            this.game.ctx.beginPath();
+            this.game.ctx.arc(this.collisionX, this.collisionY, this.collisionRadius, 0, Math.PI * 2);
+            this.game.ctx.stroke();
+        }
     }
     update() {
         this.handleEnergy();
