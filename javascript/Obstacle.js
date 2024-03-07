@@ -10,7 +10,7 @@ class Obstacle {
         this.y = Math.random() * (this.game.height - this.scaledHeight);
         this.collisionX;
         this.collisionY;
-        this.collisionRadius = this.scaledWidth * 0.5;
+        this.collisionRadius;
         this.speedY = Math.random() < 0.5 ? -1 * this.game.ratio : 1 * this.game.ratio;
         this.markedForDeletion = false;
         this.image = document.getElementById('smallGears');
@@ -61,6 +61,7 @@ class Obstacle {
     resize() {
         this.scaledWidth = this.spriteWidth * this.game.ratio;
         this.scaledHeight = this.spriteHeight * this.game.ratio;
+        this.collisionRadius = this.scaledWidth * 0.4;
     }
     isOffScreen() {
         return this.x + this.scaledWidth < 0 || this.y > this.game.height;
