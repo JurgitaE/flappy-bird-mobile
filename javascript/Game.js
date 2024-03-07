@@ -1,3 +1,4 @@
+import AudioControl from './AudioControl.js';
 import Background from './Background.js';
 import Obstacle from './Obstacle.js';
 import Player from './Player.js';
@@ -12,6 +13,7 @@ class Game {
         this.ratio = this.height / this.baseHeight;
         this.background = new Background(this);
         this.player = new Player(this);
+        this.sound = new AudioControl();
         this.obstacles = [];
         this.numberOFObstacles = 5;
         this.gravity;
