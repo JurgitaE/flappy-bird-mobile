@@ -21,7 +21,7 @@ class Background {
         let calc = 1;
         // How many backgrounds to draw
         while (this.game.width >= this.scaledWidth + lastX) {
-            lastX += this.scaledWidth;
+            lastX += this.scaledWidth - 2;
             this.game.ctx.drawImage(this.image, lastX, 0, this.scaledWidth, this.scaledHeight);
             calc++;
         }

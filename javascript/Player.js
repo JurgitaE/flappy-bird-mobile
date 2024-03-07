@@ -57,7 +57,7 @@ class Player {
             this.speedY = 0;
         }
         if (this.isTouchingBottom()) {
-            this.y = this.game.height - this.height;
+            this.y = this.game.height - this.height - this.game.bottomMargin;
             this.wingsIdle();
         }
     }
@@ -105,7 +105,7 @@ class Player {
         this.frameY = 3;
     }
     isTouchingBottom() {
-        return this.y + this.height >= this.game.height;
+        return this.y + this.height >= this.game.height - this.game.bottomMargin;
     }
     handleEnergy() {
         if (this.game.eventUpdate) {

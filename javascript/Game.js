@@ -22,6 +22,7 @@ class Game {
         this.maxSpeed;
         this.score;
         this.gameOver;
+        this.bottomMargin;
         this.timer;
         this.message1;
         this.message2;
@@ -76,6 +77,7 @@ class Game {
         this.height = this.canvas.height;
         this.ratio = this.height / this.baseHeight;
 
+        this.bottomMargin = Math.floor(50 * this.ratio);
         this.gravity = 0.15 * this.ratio;
         this.speed = 2 * this.ratio;
         this.minSpeed = this.speed;
