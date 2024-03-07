@@ -45,9 +45,11 @@ class Game {
         window.addEventListener('keydown', e => {
             if (e.key === ' ' || e.key === 'Enter') this.player.flap();
             if (e.key === 'Shift' || e.key.toLowerCase() === 'c') this.player.startCharge();
+            if (e.key.toLowerCase() === 'd') this.debug = !this.debug;
+            if (e.key.toLowerCase() === 'r') this.resize(window.innerWidth, window.innerHeight);
         });
         window.addEventListener('keyup', e => {
-            this.player.wingsUp();
+            if (e.key === ' ' || e.key === 'Enter') this.player.wingsUp();
         });
 
         // Touch controls
@@ -64,7 +66,6 @@ class Game {
     resize(width, height) {
         this.canvas.width = width;
         this.canvas.height = height;
-        // this.ctx.fillStyle = 'blue';
         this.ctx.font = '15px Bungee';
         this.ctx.textAlign = 'right';
         this.ctx.lineWidth = 3;
