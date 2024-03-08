@@ -10,10 +10,10 @@ class Game {
         this.width = this.canvas.width;
         this.height = this.canvas.height;
         this.baseHeight = 720; //same as background image height
-        this.ratio = this.height / this.baseHeight;
+        this.ratio = window.innerHeight / this.baseHeight;
         this.background = new Background(this);
         this.player = new Player(this);
-        this.sound = new AudioControl();
+        this.sound = new AudioControl(this);
         this.obstacles = [];
         this.numberOFObstacles = 15;
         this.gravity;
@@ -75,6 +75,7 @@ class Game {
         });
     }
     resize(width, height) {
+        this.isPaused = false;
         this.canvas.width = width;
         this.canvas.height = height;
         this.smallFont = Math.ceil(20 * this.ratio);
