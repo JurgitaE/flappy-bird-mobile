@@ -35,9 +35,11 @@ class Game {
         this.swipeDistance = 50;
         this.debug = false;
         this.isPaused = false;
+        this.visibilityChanged = false;
 
         this.resize(window.innerWidth, window.innerHeight);
 
+        document.addEventListener('visibilitychange', () => (this.visibilityChanged = true));
         window.addEventListener('resize', e => {
             this.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight);
         });
@@ -105,7 +107,13 @@ class Game {
     }
 
     render(deltaTime) {
-        if (!this.gameOver) this.timer += deltaTime;
+        if (!this.gameOver && !document.hidden) {
+            if (!this.visibilityChanged) {
+                this.timer += deltaTime;
+            } else {
+                this.visibilityChanged = false;
+            }
+        }
         this.handlePeriodicEvents(deltaTime);
         this.background.update();
         this.background.draw();
