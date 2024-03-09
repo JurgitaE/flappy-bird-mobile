@@ -67,6 +67,7 @@ class Player {
         this.barSize = Math.floor(5 * this.game.ratio);
         this.frameY = 0;
         this.charging = false;
+        this.energy = 30;
     }
 
     isTouchingTop() {
