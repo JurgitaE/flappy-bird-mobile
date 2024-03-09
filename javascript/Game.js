@@ -3,6 +3,7 @@ import Background from './Background.js';
 import InputHandler from './InputHandler.js';
 import Obstacle from './Obstacle.js';
 import Player from './Player.js';
+import UI from './UI.js';
 
 class Game {
     constructor(canvas, context) {
@@ -16,6 +17,7 @@ class Game {
         this.player = new Player(this);
         this.sound = new AudioControl(this);
         this.input = new InputHandler(this);
+        this.ui = new UI(this);
         this.obstacles = [];
         this.numberOFObstacles = 15;
         this.gravity;
@@ -28,8 +30,6 @@ class Game {
         this.timer;
         this.message1;
         this.message2;
-        this.smallFont;
-        this.largeFont;
         this.eventTimer = 0;
         this.eventInterval = 150;
         this.eventUpdate = false;
@@ -46,9 +46,8 @@ class Game {
         this.isPaused = false;
         this.canvas.width = width;
         this.canvas.height = height;
-        this.smallFont = Math.ceil(20 * this.ratio);
-        this.largeFont = Math.ceil(45 * this.ratio);
-        this.ctx.font = this.smallFont + 'px Bungee';
+        this.ui.resize();
+        this.ctx.font = `${this.ui.smallFont}px ${this.ui.font}`;
         this.ctx.textAlign = 'right';
         this.ctx.lineWidth = 1;
         this.ctx.strokeStyle = 'white';
@@ -83,7 +82,7 @@ class Game {
         this.handlePeriodicEvents(deltaTime);
         this.background.update();
         this.background.draw();
-        this.drawStatusText();
+        this.ui.draw();
         this.player.update();
         this.player.draw();
         this.obstacles.forEach(obstacle => {
@@ -106,9 +105,7 @@ class Game {
         const sumOfRadii = a.collisionRadius + b.collisionRadius;
         return distance <= sumOfRadii;
     }
-    formatTimer() {
-        return (this.timer * 0.001).toFixed(2);
-    }
+
     handlePeriodicEvents(deltaTime) {
         if (this.eventTimer < this.eventInterval) {
             this.eventTimer += deltaTime;
@@ -124,40 +121,13 @@ class Game {
             if (this.obstacles.length <= 0) {
                 this.sound.play(this.sound.win);
                 this.message1 = 'Nailed it!';
-                this.message2 = 'Can  you do it faster than ' + this.formatTimer() + ' seconds?';
+                this.message2 = 'Can  you do it faster than ' + this.ui.formatTimer() + ' seconds?';
             } else {
                 this.sound.play(this.sound.lose);
                 this.message1 = 'Getting rusty?';
-                this.message2 = 'Collision time ' + this.formatTimer() + ' seconds';
+                this.message2 = 'Collision time ' + this.ui.formatTimer() + ' seconds';
             }
         }
-    }
-    drawStatusText() {
-        this.ctx.save();
-        this.ctx.fillText(`Score: ${this.score}`, this.width - this.smallFont, this.largeFont);
-        this.ctx.textAlign = 'left';
-        this.ctx.fillText(`Timer: ${this.formatTimer()}`, this.smallFont, this.largeFont);
-        if (this.gameOver) {
-            this.ctx.textAlign = 'center';
-            this.ctx.font = this.largeFont + 'px Bungee';
-            this.ctx.fillText(this.message1, this.width * 0.5, this.height * 0.5 - this.largeFont, this.width);
-            this.ctx.font = this.smallFont + 'px Bungee';
-            this.ctx.fillText(this.message2, this.width * 0.5, this.height * 0.5 - this.smallFont, this.width);
-            this.ctx.fillText(`Press 'R' to try again!`, this.width * 0.5, this.height * 0.5, this.width);
-        }
-
-        this.ctx.fillStyle = 'orange';
-        if (this.player.energy <= this.player.minEnergy) this.ctx.fillStyle = 'red';
-        else if (this.player.energy >= this.player.maxEnergy) this.ctx.fillStyle = 'green';
-        for (let i = 0; i < this.player.energy; i++) {
-            this.ctx.fillRect(
-                10,
-                this.height - 10 - i * this.player.barSize,
-                this.player.barSize * 5,
-                this.player.barSize
-            );
-        }
-        this.ctx.restore();
     }
 }
 
