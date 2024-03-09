@@ -36,6 +36,7 @@ class Game {
         this.debug = false;
         this.isPaused = false;
         this.visibilityChanged = false;
+        this.isFlapping = false;
 
         this.resize(window.innerWidth, window.innerHeight);
 
@@ -51,14 +52,22 @@ class Game {
 
         // keyboard controls
         window.addEventListener('keydown', e => {
-            if (e.key === ' ' || e.key === 'Enter') this.player.flap();
+            if (e.key === ' ' || e.key === 'Enter') {
+                if (!this.isFlapping) {
+                    this.isFlapping = true;
+                    this.player.flap();
+                }
+            }
             if (e.key === 'Shift' || e.key.toLowerCase() === 'c') this.player.startCharge();
-            if (e.key.toLowerCase() === 'd') this.debug = !this.debug;
+            // if (e.key.toLowerCase() === 'd') this.debug = !this.debug;
             if (e.key.toLowerCase() === 'r') this.resize(window.innerWidth, window.innerHeight);
             if (e.key.toLowerCase() === 'p') this.togglePause();
         });
         window.addEventListener('keyup', e => {
-            if (e.key === ' ' || e.key === 'Enter') this.player.wingsUp();
+            if (e.key === ' ' || e.key === 'Enter') {
+                this.isFlapping = false;
+                this.player.wingsUp();
+            }
         });
 
         // Touch controls
