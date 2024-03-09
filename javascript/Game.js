@@ -1,5 +1,6 @@
 import AudioControl from './AudioControl.js';
 import Background from './Background.js';
+import InputHandler from './InputHandler.js';
 import Obstacle from './Obstacle.js';
 import Player from './Player.js';
 
@@ -14,6 +15,7 @@ class Game {
         this.background = new Background(this);
         this.player = new Player(this);
         this.sound = new AudioControl(this);
+        this.input = new InputHandler(this);
         this.obstacles = [];
         this.numberOFObstacles = 15;
         this.gravity;
@@ -39,51 +41,6 @@ class Game {
         this.isFlapping = false;
 
         this.resize(window.innerWidth, window.innerHeight);
-
-        document.addEventListener('visibilitychange', () => (this.visibilityChanged = true));
-        window.addEventListener('resize', e => {
-            this.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight);
-        });
-
-        // mouse countrols
-        this.canvas.addEventListener('mousedown', e => this.player.flap());
-        // mouse countrols
-        this.canvas.addEventListener('mouseup', e => setTimeout(() => this.player.wingsUp(), 50));
-
-        // keyboard controls
-        window.addEventListener('keydown', e => {
-            if (e.key === ' ' || e.key === 'Enter') {
-                if (!this.isFlapping) {
-                    this.isFlapping = true;
-                    this.player.flap();
-                }
-            }
-            if (e.key === 'Shift' || e.key.toLowerCase() === 'c') this.player.startCharge();
-            // if (e.key.toLowerCase() === 'd') this.debug = !this.debug;
-            if (e.key.toLowerCase() === 'r') this.resize(window.innerWidth, window.innerHeight);
-            if (e.key.toLowerCase() === 'p') this.togglePause();
-        });
-        window.addEventListener('keyup', e => {
-            if (e.key === ' ' || e.key === 'Enter') {
-                this.isFlapping = false;
-                this.player.wingsUp();
-            }
-        });
-
-        // Touch controls
-        this.canvas.addEventListener('touchstart', e => {
-            this.touchStartX = e.changedTouches[0].pageX;
-        });
-        this.canvas.addEventListener('touchmove', e => {
-            e.preventDefault();
-        });
-        this.canvas.addEventListener('touchend', e => {
-            if (e.changedTouches[0].pageX - this.touchStartX > this.swipeDistance) {
-                this.player.startCharge();
-            } else {
-                this.player.flap();
-            }
-        });
     }
     resize(width, height) {
         this.isPaused = false;
