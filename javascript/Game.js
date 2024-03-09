@@ -145,8 +145,10 @@ class Game {
             this.ctx.fillText(this.message2, this.width * 0.5, this.height * 0.5 - this.smallFont, this.width);
             this.ctx.fillText(`Press 'R' to try again!`, this.width * 0.5, this.height * 0.5, this.width);
         }
+
+        this.ctx.fillStyle = 'orange';
         if (this.player.energy <= this.player.minEnergy) this.ctx.fillStyle = 'red';
-        else if (this.player.energy >= this.player.maxEnergy) this.ctx.fillStyle = 'orangered';
+        else if (this.player.energy >= this.player.maxEnergy) this.ctx.fillStyle = 'green';
         for (let i = 0; i < this.player.energy; i++) {
             this.ctx.fillRect(
                 10,
@@ -156,13 +158,6 @@ class Game {
             );
         }
         this.ctx.restore();
-    }
-    togglePause() {
-        if (!this.isPaused) {
-            this.isPaused = true;
-        } else if (this.isPaused) {
-            this.isPaused = false;
-        }
     }
 }
 

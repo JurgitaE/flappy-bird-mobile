@@ -23,7 +23,7 @@ class InputHandler {
             if (e.key === 'Shift' || e.key.toLowerCase() === 'c') this.game.player.startCharge();
             // if (e.key.toLowerCase() === 'd') this.game.debug = !this.game.debug;
             if (e.key.toLowerCase() === 'r') this.game.resize(window.innerWidth, window.innerHeight);
-            if (e.key.toLowerCase() === 'p') this.game.togglePause();
+            if (e.key.toLowerCase() === 'p') this.togglePause();
         });
 
         window.addEventListener('keyup', e => {
@@ -48,6 +48,13 @@ class InputHandler {
                 this.game.player.flap();
             }
         });
+    }
+    togglePause() {
+        if (!this.game.isPaused) {
+            this.game.isPaused = true;
+        } else if (this.game.isPaused) {
+            this.game.isPaused = false;
+        }
     }
 }
 
