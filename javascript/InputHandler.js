@@ -1,7 +1,13 @@
 class InputHandler {
     constructor(game) {
         this.game = game;
+        this.btn = document.getElementById('start');
+        this.intro = document.getElementById('intro');
 
+        this.btn.addEventListener('click', () => {
+            this.intro.style.display = 'none';
+            this.game.hasStarted = true;
+        });
         document.addEventListener('visibilitychange', () => (this.game.visibilityChanged = true));
 
         window.addEventListener('resize', e =>
