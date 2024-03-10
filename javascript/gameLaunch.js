@@ -20,7 +20,7 @@ function gameLaunch() {
             fpsAdjustment += deltaTime;
 
             // if condition for fps adjustment 60fps
-            if (fpsAdjustment >= 16.67 && !game.isPaused) {
+            if (fpsAdjustment >= 16.67 && !game.isPaused && game.hasStarted) {
                 // ctx.clearRect(0, 0, canvas.width, canvas.height);
                 game.render(deltaTime);
                 fpsAdjustment = fpsAdjustment % 16.67;
@@ -28,7 +28,7 @@ function gameLaunch() {
             requestAnimationFrame(animate);
         }
 
-        requestAnimationFrame(animate);
+        animate(0);
     });
 }
 
