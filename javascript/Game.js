@@ -38,7 +38,6 @@ class Game {
         this.debug = false;
         this.isPaused = false;
         this.visibilityChanged = false;
-        this.isFlapping = false;
         this.hasStarted = false;
 
         this.resize(window.innerWidth, window.innerHeight);

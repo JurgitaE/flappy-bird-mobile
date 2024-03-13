@@ -6,6 +6,7 @@ class InputHandler {
         this.controls = document.getElementById('controls-container');
         this.retry = document.getElementById('retry');
         this.pause = document.getElementById('pause');
+        this.keysPressed = [];
 
         this.btn.addEventListener('click', () => {
             this.intro.style.display = 'none';
@@ -32,23 +33,24 @@ class InputHandler {
 
         // Keyboard controls
         window.addEventListener('keydown', e => {
-            if (e.key === ' ' || e.key === 'Enter') {
-                if (!this.game.isFlapping) {
-                    this.game.isFlapping = true;
+            if (this.keysPressed.indexOf(e.key.toLowerCase()) === -1) {
+                if (e.key === ' ' || e.key === 'Enter') {
                     this.game.player.flap();
                 }
+                if (e.key === 'Shift' || e.key.toLowerCase() === 'c') this.game.player.startCharge();
+                // if (e.key.toLowerCase() === 'd') this.game.debug = !this.game.debug;
+                if (e.key.toLowerCase() === 'r') this.game.resize(window.innerWidth, window.innerHeight);
+                if (e.key.toLowerCase() === 'p') this.togglePause();
+                this.keysPressed.push(e.key.toLowerCase());
             }
-            if (e.key === 'Shift' || e.key.toLowerCase() === 'c') this.game.player.startCharge();
-            // if (e.key.toLowerCase() === 'd') this.game.debug = !this.game.debug;
-            if (e.key.toLowerCase() === 'r') this.game.resize(window.innerWidth, window.innerHeight);
-            if (e.key.toLowerCase() === 'p') this.togglePause();
         });
 
         window.addEventListener('keyup', e => {
             if (e.key === ' ' || e.key === 'Enter') {
-                this.game.isFlapping = false;
                 this.game.player.wingsUp();
             }
+
+            this.keysPressed.splice(this.keysPressed.indexOf(e.key.toLowerCase()), 1);
         });
         // Touch controls
         this.game.canvas.addEventListener('touchstart', e => {
