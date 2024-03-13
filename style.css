@@ -39,9 +39,8 @@ body::before {
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
-    width: 100vw;
-    overflow: scroll;
+    min-height: 100dvh;
+    min-width: 100dvw;
     font-size: 20px;
 }
 
