@@ -155,6 +155,7 @@ p {
     padding: 0.2em;
     margin: 0 0.1em;
     border-radius: 0.1em;
+    user-select: none;
 }
 .controls-container span:hover {
     background-color: hsl(0, 100%, 40%);
