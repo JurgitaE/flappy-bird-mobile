@@ -47,14 +47,15 @@ class Game {
         this.isPaused = false;
         this.canvas.width = width;
         this.canvas.height = height;
+        this.width = this.canvas.width;
+        this.height = this.canvas.height;
+        this.ratio = this.height / this.baseHeight;
+
         this.ui.resize();
         this.ctx.font = `${this.ui.smallFont}px ${this.ui.font}`;
         this.ctx.textAlign = 'right';
         this.ctx.lineWidth = 1;
         this.ctx.strokeStyle = 'white';
-        this.width = this.canvas.width;
-        this.height = this.canvas.height;
-        this.ratio = this.height / this.baseHeight;
 
         this.bottomMargin = Math.floor(50 * this.ratio);
         this.gravity = 0.15 * this.ratio;

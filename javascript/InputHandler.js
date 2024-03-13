@@ -3,11 +3,22 @@ class InputHandler {
         this.game = game;
         this.btn = document.getElementById('start');
         this.intro = document.getElementById('intro');
+        this.controls = document.getElementById('controls-container');
+        this.retry = document.getElementById('retry');
+        this.pause = document.getElementById('pause');
 
         this.btn.addEventListener('click', () => {
             this.intro.style.display = 'none';
+            this.controls.style.display = 'flex';
             this.game.hasStarted = true;
         });
+        this.retry.addEventListener('click', () => {
+            this.game.resize(window.innerWidth, window.innerHeight);
+        });
+        this.pause.addEventListener('click', () => {
+            this.togglePause();
+        });
+
         document.addEventListener('visibilitychange', () => (this.game.visibilityChanged = true));
 
         window.addEventListener('resize', e =>
