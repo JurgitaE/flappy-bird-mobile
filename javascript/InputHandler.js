@@ -15,7 +15,8 @@ class InputHandler {
         this.retry.addEventListener('click', () => {
             this.game.resize(window.innerWidth, window.innerHeight);
         });
-        this.pause.addEventListener('click', () => {
+        this.pause.addEventListener('click', e => {
+            e.preventDefault();
             this.togglePause();
         });
 
