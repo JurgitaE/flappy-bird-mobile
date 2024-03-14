@@ -10,7 +10,18 @@ body * {
     box-sizing: border-box;
     font-family: 'Bungee', sans-serif;
 }
-
+body::before {
+    content: '';
+    background-image: url(./img/home-background.jpg);
+    position: fixed;
+    background-size: cover;
+    background-position: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
 #canvas1 {
     position: absolute;
     top: 0;
@@ -23,52 +34,154 @@ body * {
     display: none;
 }
 .intro {
-    display: flex;
-    background-image: url(./img/88298.jpg);
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    flex-direction: column;
-    align-items: center;
+    display: flex;
     justify-content: space-around;
-    background-size: cover;
-    background-position: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100dvh;
+    min-width: 100dvw;
     font-size: 20px;
 }
 
+.row {
+    margin-bottom: 0.2em;
+}
+
+.row:last-child {
+    margin-bottom: 0;
+}
 .intro h1 {
-    color: white;
-    font-size: 1.2em;
+    color: hsl(200, 59%, 41%);
+    text-shadow: 0px 0px 0.75em white;
+    font-size: 1.3em;
     letter-spacing: 0.1em;
     word-spacing: 0.3em;
+    line-height: 1em;
+    text-align: center;
+}
+
+.controls-table {
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    text-shadow: 0.05em 0.1em 0.1em black;
+    text-align: center;
+}
+
+.control {
+    font-size: 1em;
+    margin: 0.5em 0;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+p {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+.action {
+    width: 50%;
+    padding-right: 1em;
+    font-family: Bungee;
+    font-size: 0.6em;
+    line-height: 1;
+    text-align: right;
+    color: rgb(154, 40, 40);
+    text-shadow: 0 0 0.1em white;
+}
+
+.action img {
+    width: 3em;
+    filter: invert(27%) sepia(20%) saturate(4998%) hue-rotate(335deg) brightness(82%) contrast(94%);
+}
+.description {
+    width: 50%;
+    color: white;
+    text-shadow: 0 0 0.1em black;
+    letter-spacing: 0.1em;
+    text-align: left;
+    line-height: 1;
 }
 #start {
     font-size: 0.8em;
-    background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
-    border: none;
+    background-color: hsl(0, 59%, 38%);
     border-radius: 0.5em;
-    box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
-        rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
+    box-shadow: 0.25em 0.25em 1em -0.1em hsl(0, 0%, 20%);
     color: #fff;
     cursor: pointer;
     padding: 0.25em 2em;
     letter-spacing: 0.1em;
+    user-select: none;
+    border: none;
 }
 
 #start:hover {
-    transform: translateY(-2px);
+    transform: translateY(-0.2em);
     opacity: 0.9;
 }
 
 #start:active {
-    box-shadow: #3c4fe0 0 3px 7px inset;
-    transform: translateY(2px);
+    box-shadow: hsl(0, 0%, 20%) 0 0.15em 1em inset;
+    transform: translateY(0.1em);
+}
+
+.controls-container {
+    display: none;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    font-size: 16px;
+}
+.controls-container span {
+    display: inline-block;
+    font-size: 10vh;
+
+    line-height: 1;
+    color: white;
+    background-color: hsl(0, 100%, 50%);
+    cursor: pointer;
+    padding: 0.1em;
+    margin: 0 0.15em;
+    border-radius: 0.1em;
+    user-select: none;
+}
+span img {
+    max-width: 8vh;
+    filter: invert(100%) sepia(0%) saturate(4036%) hue-rotate(241deg) brightness(104%) contrast(105%);
+}
+.controls-container span:hover {
+    background-color: hsl(0, 100%, 40%);
 }
 
 @media (min-width: 700px) {
     .intro {
         font-size: 30px;
+    }
+    .controls-table {
+        min-width: 90%;
+    }
+    .controls-container {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 700px) and (orientation: landscape) {
+    #start {
+        position: fixed;
+        bottom: 0;
+        right: 0;
     }
 }
