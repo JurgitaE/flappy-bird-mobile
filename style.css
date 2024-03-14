@@ -22,9 +22,7 @@ body * {
     background-size: cover;
     background-position: center;
 }
-/* body::before {
-    content: '';
-} */
+
 #canvas1 {
     position: absolute;
     top: 0;
@@ -142,7 +140,6 @@ p {
     justify-content: center;
     align-items: center;
     bottom: 0;
-    left: 0;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;

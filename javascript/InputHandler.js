@@ -9,6 +9,8 @@ class InputHandler {
         this.pauseBtn = document.getElementById('pause');
         this.soundBtn = document.getElementById('sound');
         this.homeBtn = document.getElementById('home');
+        this.fullScreenBtn = document.getElementById('full-screen');
+        this.isFullScreen = false;
 
         this.keysPressed = [];
 
@@ -42,7 +44,15 @@ class InputHandler {
             this.controls.style.display = 'none';
             this.game.hasStarted = false;
         });
-
+        this.fullScreenBtn.addEventListener('click', () => {
+            if (!this.isFullScreen) {
+                this.openFullscreen();
+                this.isFullScreen = true;
+            } else {
+                this.closeFullscreen();
+                this.isFullScreen = false;
+            }
+        });
         document.addEventListener('visibilitychange', () => (this.game.visibilityChanged = true));
 
         window.addEventListener('resize', e =>
@@ -96,6 +106,35 @@ class InputHandler {
             this.game.isPaused = true;
         } else if (this.game.isPaused) {
             this.game.isPaused = false;
+        }
+    }
+    openFullscreen() {
+        if (document.body.requestFullscreen) {
+            document.body.requestFullscreen();
+        } else if (docBody.mozRequestFullScreen) {
+            // Firefox
+            docBody.mozRequestFullScreen();
+        } else if (document.body.webkitRequestFullscreen) {
+            /* Safari */
+            document.body.webkitRequestFullscreen();
+        } else if (document.body.msRequestFullscreen) {
+            /* IE11 */
+            document.body.msRequestFullscreen();
+        }
+        document.body.classList.add('fullscreen');
+    }
+    closeFullscreen() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            /* IE11 */
+            document.msExitFullscreen();
         }
     }
 }
