@@ -39,7 +39,7 @@ class Game {
         this.isPaused = false;
         this.visibilityChanged = false;
         this.hasStarted = false;
-
+        this.soundOn = true;
         this.resize(window.innerWidth, window.innerHeight);
     }
     resize(width, height) {

@@ -12,7 +12,7 @@ class AudioControl {
         this.flapSounds = [this.flap1, this.flap2, this.flap3, this.flap4, this.flap5];
     }
     play(sound) {
-        if (!this.game.isPaused) {
+        if (this.game.hasStarted && this.game.soundOn && !this.game.isPaused) {
             sound.currentTime = 0;
             sound.play();
         }

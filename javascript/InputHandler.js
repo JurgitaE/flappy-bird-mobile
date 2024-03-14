@@ -6,8 +6,19 @@ class InputHandler {
         this.controls = document.getElementById('controls-container');
         this.retry = document.getElementById('retry');
         this.pause = document.getElementById('pause');
+        this.sound = document.getElementById('sound');
+
         this.keysPressed = [];
 
+        this.sound.addEventListener('click', () => {
+            if (this.game.soundOn) {
+                this.game.soundOn = false;
+                document.querySelector('#sound img').src = './img/mute.png';
+            } else {
+                this.game.soundOn = true;
+                document.querySelector('#sound img').src = './img/volume.png';
+            }
+        });
         this.btn.addEventListener('click', () => {
             this.intro.style.display = 'none';
             this.controls.style.display = 'flex';
