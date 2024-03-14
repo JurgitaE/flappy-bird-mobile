@@ -1,16 +1,33 @@
 class InputHandler {
     constructor(game) {
         this.game = game;
-        this.btn = document.getElementById('start');
+        this.background = document.getElementById('home-background');
         this.intro = document.getElementById('intro');
         this.controls = document.getElementById('controls-container');
-        this.retry = document.getElementById('retry');
-        this.pause = document.getElementById('pause');
-        this.sound = document.getElementById('sound');
+        this.startBtn = document.getElementById('start');
+        this.retryBtn = document.getElementById('retry');
+        this.pauseBtn = document.getElementById('pause');
+        this.soundBtn = document.getElementById('sound');
+        this.homeBtn = document.getElementById('home');
 
         this.keysPressed = [];
 
-        this.sound.addEventListener('click', () => {
+        this.startBtn.addEventListener('click', () => {
+            this.background.style.display = 'none';
+            this.intro.style.display = 'none';
+            this.controls.style.display = 'flex';
+            this.game.hasStarted = true;
+            this.game.resize(window.innerWidth, window.innerHeight);
+        });
+
+        this.retryBtn.addEventListener('click', () => {
+            this.game.resize(window.innerWidth, window.innerHeight);
+        });
+        this.pauseBtn.addEventListener('click', e => {
+            e.preventDefault();
+            this.togglePause();
+        });
+        this.soundBtn.addEventListener('click', () => {
             if (this.game.soundOn) {
                 this.game.soundOn = false;
                 document.querySelector('#sound img').src = './img/mute.png';
@@ -19,17 +36,11 @@ class InputHandler {
                 document.querySelector('#sound img').src = './img/volume.png';
             }
         });
-        this.btn.addEventListener('click', () => {
-            this.intro.style.display = 'none';
-            this.controls.style.display = 'flex';
-            this.game.hasStarted = true;
-        });
-        this.retry.addEventListener('click', () => {
-            this.game.resize(window.innerWidth, window.innerHeight);
-        });
-        this.pause.addEventListener('click', e => {
-            e.preventDefault();
-            this.togglePause();
+        this.homeBtn.addEventListener('click', () => {
+            this.background.style.display = 'block';
+            this.intro.style.display = 'flex';
+            this.controls.style.display = 'none';
+            this.game.hasStarted = false;
         });
 
         document.addEventListener('visibilitychange', () => (this.game.visibilityChanged = true));
