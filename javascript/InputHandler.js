@@ -59,10 +59,6 @@ class InputHandler {
             this.game.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight)
         );
 
-        // Mouse countrols
-        this.game.canvas.addEventListener('mousedown', e => this.game.player.flap());
-        this.game.canvas.addEventListener('mouseup', e => setTimeout(() => this.game.player.wingsUp(), 50));
-
         // Keyboard controls
         window.addEventListener('keydown', e => {
             if (this.keysPressed.indexOf(e.key.toLowerCase()) === -1) {
@@ -84,6 +80,21 @@ class InputHandler {
 
             this.keysPressed.splice(this.keysPressed.indexOf(e.key.toLowerCase()), 1);
         });
+
+        // Mouse countrols
+        this.game.canvas.addEventListener('mousedown', e => {
+            this.game.mouseStartx = e.clientX;
+        });
+
+        this.game.canvas.addEventListener('mouseup', e => {
+            if (e.clientX - this.game.mouseStartx > this.game.swipeDistance) {
+                this.game.player.startCharge();
+            } else {
+                this.game.player.flap();
+            }
+            setTimeout(() => this.game.player.wingsUp(), 50);
+        });
+
         // Touch controls
         this.game.canvas.addEventListener('touchstart', e => {
             this.game.touchStartX = e.changedTouches[0].pageX;
