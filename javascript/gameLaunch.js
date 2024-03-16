@@ -9,14 +9,21 @@ function gameLaunch() {
 
         const game = new Game(canvas, ctx);
 
-        let lastTime = 0;
+        let startedLoop = 0;
+        let lastTime = Date.now();
 
         // implementation of adjusted fps
         let fpsAdjustment = 0;
 
-        function animate(timeStamp) {
-            const deltaTime = timeStamp - lastTime;
-            lastTime = timeStamp;
+        function animate() {
+            if (game.hasStarted && startedLoop === 0) {
+                lastTime = Date.now();
+                startedLoop = 1;
+            }
+
+            let timeNow = Date.now();
+            const deltaTime = timeNow - lastTime;
+            lastTime = timeNow;
             fpsAdjustment += deltaTime;
 
             // if condition for fps adjustment 60fps

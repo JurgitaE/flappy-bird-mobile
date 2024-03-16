@@ -1,16 +1,35 @@
 class InputHandler {
     constructor(game) {
         this.game = game;
-        this.btn = document.getElementById('start');
+        this.background = document.getElementById('home-background');
         this.intro = document.getElementById('intro');
         this.controls = document.getElementById('controls-container');
-        this.retry = document.getElementById('retry');
-        this.pause = document.getElementById('pause');
-        this.sound = document.getElementById('sound');
+        this.startBtn = document.getElementById('start');
+        this.retryBtn = document.getElementById('retry');
+        this.pauseBtn = document.getElementById('pause');
+        this.soundBtn = document.getElementById('sound');
+        this.homeBtn = document.getElementById('home');
+        this.fullScreenBtn = document.getElementById('full-screen');
+        this.isFullScreen = false;
 
         this.keysPressed = [];
 
-        this.sound.addEventListener('click', () => {
+        this.startBtn.addEventListener('click', () => {
+            this.background.style.display = 'none';
+            this.intro.style.display = 'none';
+            this.controls.style.display = 'flex';
+            this.game.hasStarted = true;
+            this.game.resize(window.innerWidth, window.innerHeight);
+        });
+
+        this.retryBtn.addEventListener('click', () => {
+            this.game.resize(window.innerWidth, window.innerHeight);
+        });
+        this.pauseBtn.addEventListener('click', e => {
+            e.preventDefault();
+            this.togglePause();
+        });
+        this.soundBtn.addEventListener('click', () => {
             if (this.game.soundOn) {
                 this.game.soundOn = false;
                 document.querySelector('#sound img').src = './img/mute.png';
@@ -19,28 +38,26 @@ class InputHandler {
                 document.querySelector('#sound img').src = './img/volume.png';
             }
         });
-        this.btn.addEventListener('click', () => {
-            this.intro.style.display = 'none';
-            this.controls.style.display = 'flex';
-            this.game.hasStarted = true;
+        this.homeBtn.addEventListener('click', () => {
+            this.background.style.display = 'block';
+            this.intro.style.display = 'flex';
+            this.controls.style.display = 'none';
+            this.game.hasStarted = false;
         });
-        this.retry.addEventListener('click', () => {
-            this.game.resize(window.innerWidth, window.innerHeight);
+        this.fullScreenBtn.addEventListener('click', () => {
+            if (!this.isFullScreen) {
+                this.openFullscreen();
+                this.isFullScreen = true;
+            } else {
+                this.closeFullscreen();
+                this.isFullScreen = false;
+            }
         });
-        this.pause.addEventListener('click', e => {
-            e.preventDefault();
-            this.togglePause();
-        });
-
         document.addEventListener('visibilitychange', () => (this.game.visibilityChanged = true));
 
         window.addEventListener('resize', e =>
             this.game.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight)
         );
-
-        // Mouse countrols
-        this.game.canvas.addEventListener('mousedown', e => this.game.player.flap());
-        this.game.canvas.addEventListener('mouseup', e => setTimeout(() => this.game.player.wingsUp(), 50));
 
         // Keyboard controls
         window.addEventListener('keydown', e => {
@@ -63,6 +80,21 @@ class InputHandler {
 
             this.keysPressed.splice(this.keysPressed.indexOf(e.key.toLowerCase()), 1);
         });
+
+        // Mouse countrols
+        this.game.canvas.addEventListener('mousedown', e => {
+            this.game.mouseStartx = e.clientX;
+        });
+
+        this.game.canvas.addEventListener('mouseup', e => {
+            if (e.clientX - this.game.mouseStartx > this.game.swipeDistance) {
+                this.game.player.startCharge();
+            } else {
+                this.game.player.flap();
+            }
+            setTimeout(() => this.game.player.wingsUp(), 50);
+        });
+
         // Touch controls
         this.game.canvas.addEventListener('touchstart', e => {
             this.game.touchStartX = e.changedTouches[0].pageX;
@@ -85,6 +117,35 @@ class InputHandler {
             this.game.isPaused = true;
         } else if (this.game.isPaused) {
             this.game.isPaused = false;
+        }
+    }
+    openFullscreen() {
+        if (document.body.requestFullscreen) {
+            document.body.requestFullscreen();
+        } else if (docBody.mozRequestFullScreen) {
+            // Firefox
+            docBody.mozRequestFullScreen();
+        } else if (document.body.webkitRequestFullscreen) {
+            /* Safari */
+            document.body.webkitRequestFullscreen();
+        } else if (document.body.msRequestFullscreen) {
+            /* IE11 */
+            document.body.msRequestFullscreen();
+        }
+        document.body.classList.add('fullscreen');
+    }
+    closeFullscreen() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            /* IE11 */
+            document.msExitFullscreen();
         }
     }
 }

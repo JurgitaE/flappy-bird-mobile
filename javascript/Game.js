@@ -34,6 +34,7 @@ class Game {
         this.eventInterval = 150;
         this.eventUpdate = false;
         this.touchStartX;
+        this.mouseStartX;
         this.swipeDistance = 50;
         this.debug = false;
         this.isPaused = false;
