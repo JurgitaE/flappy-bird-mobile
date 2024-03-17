@@ -19,7 +19,7 @@ class Game {
         this.input = new InputHandler(this);
         this.ui = new UI(this);
         this.obstacles = [];
-        this.numberOFObstacles = 15;
+        this.numberOFObstacles = 6;
         this.gravity;
         this.speed;
         this.minSpeed;
@@ -64,6 +64,7 @@ class Game {
         this.maxSpeed = this.speed * 5;
         this.background.resize();
         this.player.resize();
+        this.obstacles = [];
         this.createObstacles();
         this.obstacles.forEach(obstacle => {
             obstacle.resize();
@@ -91,15 +92,27 @@ class Game {
             obstacle.update();
             obstacle.draw();
         });
+
+        if (this.obstacles.length < this.numberOFObstacles) this.createObstacles();
     }
+
     createObstacles() {
-        this.obstacles = [];
-        const firstX = this.baseHeight * this.ratio;
-        const obstacleSpacing = 600 * this.ratio;
-        for (let i = 0; i < this.numberOFObstacles; i++) {
-            this.obstacles.push(new Obstacle(this, firstX + i * obstacleSpacing));
+        if (!this.obstacles.length) {
+            const firstX = this.baseHeight * this.ratio;
+            const obstacleSpacing = 600 * this.ratio;
+            for (let i = 0; i < this.numberOFObstacles; i++) {
+                this.obstacles.push(new Obstacle(this, firstX + i * obstacleSpacing));
+            }
+        } else {
+            const firstX = this.obstacles[this.obstacles.length - 1].x;
+            const obstacleSpacing = 600 * this.ratio;
+            for (let i = 0; i < this.numberOFObstacles - this.obstacles.length; i++) {
+                this.obstacles.push(new Obstacle(this, firstX + (i + 1) * obstacleSpacing));
+                this.obstacles[this.obstacles.length - 1].resize();
+            }
         }
     }
+
     checkCollision(a, b) {
         const dx = a.collisionX - b.collisionX;
         const dy = a.collisionY - b.collisionY;
