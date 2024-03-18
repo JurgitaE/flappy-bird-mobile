@@ -44,10 +44,15 @@ class Game {
         this.soundOn = true;
         this.speedIncrementStep = 0.3;
         this.incrementSpeed = false;
+        this.highScore;
         this.resize(window.innerWidth, window.innerHeight);
     }
     resize(width, height) {
         this.isPaused = false;
+        if (!localStorage.getItem('highScore')) {
+            localStorage.setItem('highScore', 0);
+        }
+        this.highScore = localStorage.getItem('highScore');
         this.canvas.width = width;
         this.canvas.height = height;
         this.width = this.canvas.width;

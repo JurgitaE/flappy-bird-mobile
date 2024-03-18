@@ -9,6 +9,7 @@ class UI {
     draw() {
         this.game.ctx.save();
         this.game.ctx.fillText(`Score: ${this.game.score}`, this.game.width - this.smallFont, this.largeFont);
+        this.game.ctx.fillText(`Best: ${this.game.highScore}`, this.game.width - this.smallFont, this.largeFont * 1.5);
         this.game.ctx.textAlign = 'left';
         this.game.ctx.fillText(`Timer: ${this.formatTimer()}`, this.smallFont, this.largeFont);
         if (this.game.gameOver) {

@@ -29,7 +29,13 @@ class Obstacle {
         if (this.isOffScreen()) {
             this.markedForDeletion = true;
             this.game.obstacles = this.game.obstacles.filter(obstacle => !obstacle.markedForDeletion);
-            if (!this.game.gameOver) this.game.score++;
+            if (!this.game.gameOver) {
+                this.game.score++;
+                if (this.game.score > this.game.highScore) {
+                    localStorage.setItem('highScore', this.game.score);
+                    this.game.highScore = this.game.score;
+                }
+            }
             if (this.game.obstacles.length <= 0) this.game.triggerGameOver();
             if (this.game.score && this.game.score % 3 === 0) {
                 this.game.incrementSpeed = true;
