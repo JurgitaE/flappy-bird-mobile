@@ -31,6 +31,9 @@ class Obstacle {
             this.game.obstacles = this.game.obstacles.filter(obstacle => !obstacle.markedForDeletion);
             if (!this.game.gameOver) this.game.score++;
             if (this.game.obstacles.length <= 0) this.game.triggerGameOver();
+            if (this.game.score && this.game.score % 3 === 0) {
+                this.game.incrementSpeed = true;
+            }
         }
         if (this.game.checkCollision(this, this.game.player)) {
             this.game.player.collided = true;

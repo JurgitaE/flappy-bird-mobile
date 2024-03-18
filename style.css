@@ -187,10 +187,11 @@ span img {
         max-width: 8vw;
     }
 }
-@media (max-width: 700px) and (orientation: landscape) {
+@media (max-height: 700px) and (orientation: landscape) {
     #start {
         position: fixed;
         bottom: 0;
         right: 0;
+        opacity: 0.7;
     }
 }

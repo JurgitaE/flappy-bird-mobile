@@ -37,10 +37,13 @@ class Game {
         this.mouseStartX;
         this.swipeDistance = 50;
         this.debug = false;
+
         this.isPaused = false;
         this.visibilityChanged = false;
         this.hasStarted = false;
         this.soundOn = true;
+        this.speedIncrementStep = 0.3;
+        this.incrementSpeed = false;
         this.resize(window.innerWidth, window.innerHeight);
     }
     resize(width, height) {
@@ -82,6 +85,7 @@ class Game {
                 this.visibilityChanged = false;
             }
         }
+
         this.handlePeriodicEvents(deltaTime);
         this.background.update();
         this.background.draw();
@@ -93,7 +97,7 @@ class Game {
             obstacle.draw();
         });
 
-        if (this.obstacles.length < this.numberOFObstacles) this.createObstacles();
+        if (this.obstacles.length < this.numberOFObstacles && !this.gameOver) this.createObstacles();
     }
 
     createObstacles() {
