@@ -44,15 +44,15 @@ Improvements, changes and input implemented:
 
 5. UI improvements:
 
--   visible white max energy bar (white background bar to behind energy filled);
--   highest score implemented (using localStorage);
--   game over messages changed according to high score (best score beaten or not);
+    - visible white max energy bar (white background bar to behind energy filled);
+    - highest score implemented (using localStorage);
+    - game over messages changed according to high score (best score beaten or not);
 
 6. Code restructuring:
 
--   InputHandler class created and all interactions moved there;
--   UI class for drawing messages;
--   script.js cleaned;
+    - InputHandler class created and all interactions moved there;
+    - UI class for drawing messages;
+    - script.js cleaned;
 
 ## 🎯 Project features/goals
 
