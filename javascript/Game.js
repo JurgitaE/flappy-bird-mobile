@@ -145,11 +145,11 @@ class Game {
             if (this.score === this.highScore) {
                 this.sound.play(this.sound.win);
                 this.message1 = 'Nailed it!';
-                this.message2 = `New best score is ${this.highScore}!`;
+                this.message2 = `New best score: ${this.highScore}!`;
             } else {
                 this.sound.play(this.sound.lose);
                 this.message1 = 'Getting rusty?';
-                this.message2 = `You scored: ${this.score}.Beat your highscore: ${this.highScore}!`;
+                this.message2 = `You scored: ${this.score}. Beat your highscore: ${this.highScore}!`;
             }
         }
     }
