@@ -142,14 +142,14 @@ class Game {
     triggerGameOver() {
         if (!this.gameOver) {
             this.gameOver = true;
-            if (this.obstacles.length <= 0) {
+            if (this.score === this.highScore) {
                 this.sound.play(this.sound.win);
                 this.message1 = 'Nailed it!';
-                this.message2 = 'Can  you do it faster than ' + this.ui.formatTimer() + ' seconds?';
+                this.message2 = `New best score is ${this.highScore}!`;
             } else {
                 this.sound.play(this.sound.lose);
                 this.message1 = 'Getting rusty?';
-                this.message2 = 'Collision time ' + this.ui.formatTimer() + ' seconds';
+                this.message2 = `You scored: ${this.score}.Beat your highscore: ${this.highScore}!`;
             }
         }
     }
