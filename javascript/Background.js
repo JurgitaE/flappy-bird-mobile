@@ -11,6 +11,13 @@ class Background {
     }
 
     update() {
+        if (this.game.incrementSpeed) {
+            this.game.minSpeed += this.game.speedIncrementStep;
+            this.game.maxSpeed += this.game.speedIncrementStep;
+            this.game.incrementSpeed = false;
+
+            this.game.speed += this.game.speedIncrementStep;
+        }
         this.x -= this.game.speed;
         if (this.x + this.scaledWidth <= 0) this.x = 0;
     }

@@ -9,6 +9,7 @@ class UI {
     draw() {
         this.game.ctx.save();
         this.game.ctx.fillText(`Score: ${this.game.score}`, this.game.width - this.smallFont, this.largeFont);
+        this.game.ctx.fillText(`Best: ${this.game.highScore}`, this.game.width - this.smallFont, this.largeFont * 1.5);
         this.game.ctx.textAlign = 'left';
         this.game.ctx.fillText(`Timer: ${this.formatTimer()}`, this.smallFont, this.largeFont);
         if (this.game.gameOver) {
@@ -34,6 +35,13 @@ class UI {
                 this.game.width
             );
         }
+        this.game.ctx.fillStyle = 'white';
+        this.game.ctx.fillRect(
+            10,
+            this.game.height - this.game.player.barSize * this.game.player.maxEnergy - 5,
+            this.game.player.barSize * 5,
+            this.game.player.barSize * this.game.player.maxEnergy - 5
+        );
 
         this.game.ctx.fillStyle = 'orange';
         if (this.game.player.energy <= this.game.player.minEnergy) this.game.ctx.fillStyle = 'red';

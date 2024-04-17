@@ -19,7 +19,7 @@ class Game {
         this.input = new InputHandler(this);
         this.ui = new UI(this);
         this.obstacles = [];
-        this.numberOFObstacles = 15;
+        this.numberOFObstacles = 6;
         this.gravity;
         this.speed;
         this.minSpeed;
@@ -37,14 +37,22 @@ class Game {
         this.mouseStartX;
         this.swipeDistance = 50;
         this.debug = false;
+
         this.isPaused = false;
         this.visibilityChanged = false;
         this.hasStarted = false;
         this.soundOn = true;
+        this.speedIncrementStep = 0.3;
+        this.incrementSpeed = false;
+        this.highScore;
         this.resize(window.innerWidth, window.innerHeight);
     }
     resize(width, height) {
         this.isPaused = false;
+        if (!localStorage.getItem('highScore')) {
+            localStorage.setItem('highScore', 0);
+        }
+        this.highScore = localStorage.getItem('highScore');
         this.canvas.width = width;
         this.canvas.height = height;
         this.width = this.canvas.width;
@@ -64,6 +72,7 @@ class Game {
         this.maxSpeed = this.speed * 5;
         this.background.resize();
         this.player.resize();
+        this.obstacles = [];
         this.createObstacles();
         this.obstacles.forEach(obstacle => {
             obstacle.resize();
@@ -81,6 +90,7 @@ class Game {
                 this.visibilityChanged = false;
             }
         }
+
         this.handlePeriodicEvents(deltaTime);
         this.background.update();
         this.background.draw();
@@ -91,15 +101,27 @@ class Game {
             obstacle.update();
             obstacle.draw();
         });
+
+        if (this.obstacles.length < this.numberOFObstacles && !this.gameOver) this.createObstacles();
     }
+
     createObstacles() {
-        this.obstacles = [];
-        const firstX = this.baseHeight * this.ratio;
-        const obstacleSpacing = 600 * this.ratio;
-        for (let i = 0; i < this.numberOFObstacles; i++) {
-            this.obstacles.push(new Obstacle(this, firstX + i * obstacleSpacing));
+        if (!this.obstacles.length) {
+            const firstX = this.baseHeight * this.ratio;
+            const obstacleSpacing = 600 * this.ratio;
+            for (let i = 0; i < this.numberOFObstacles; i++) {
+                this.obstacles.push(new Obstacle(this, firstX + i * obstacleSpacing));
+            }
+        } else {
+            const firstX = this.obstacles[this.obstacles.length - 1].x;
+            const obstacleSpacing = 600 * this.ratio;
+            for (let i = 0; i < this.numberOFObstacles - this.obstacles.length; i++) {
+                this.obstacles.push(new Obstacle(this, firstX + (i + 1) * obstacleSpacing));
+                this.obstacles[this.obstacles.length - 1].resize();
+            }
         }
     }
+
     checkCollision(a, b) {
         const dx = a.collisionX - b.collisionX;
         const dy = a.collisionY - b.collisionY;
@@ -120,14 +142,14 @@ class Game {
     triggerGameOver() {
         if (!this.gameOver) {
             this.gameOver = true;
-            if (this.obstacles.length <= 0) {
+            if (this.score === this.highScore) {
                 this.sound.play(this.sound.win);
                 this.message1 = 'Nailed it!';
-                this.message2 = 'Can  you do it faster than ' + this.ui.formatTimer() + ' seconds?';
+                this.message2 = `New best score: ${this.highScore}!`;
             } else {
                 this.sound.play(this.sound.lose);
                 this.message1 = 'Getting rusty?';
-                this.message2 = 'Collision time ' + this.ui.formatTimer() + ' seconds';
+                this.message2 = `You scored: ${this.score}. Beat your highscore: ${this.highScore}!`;
             }
         }
     }
