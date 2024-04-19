@@ -9,10 +9,9 @@ function gameLaunch() {
 
         const game = new Game(canvas, ctx);
 
+        // implementation of adjusted fps
         let startedLoop = 0;
         let lastTime = Date.now();
-
-        // implementation of adjusted fps
         let fpsAdjustment = 0;
 
         function animate() {
@@ -28,14 +27,13 @@ function gameLaunch() {
 
             // if condition for fps adjustment 60fps
             if (fpsAdjustment >= 16.67 && !game.isPaused && game.hasStarted) {
-                // ctx.clearRect(0, 0, canvas.width, canvas.height);
                 game.render(deltaTime);
                 fpsAdjustment = fpsAdjustment % 16.67;
             }
             requestAnimationFrame(animate);
         }
 
-        animate(0);
+        requestAnimationFrame(animate);
     });
 }
 
